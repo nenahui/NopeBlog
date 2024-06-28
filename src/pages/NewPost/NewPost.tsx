@@ -1,5 +1,5 @@
-import { Text } from '@radix-ui/themes';
+import { PostForm } from '../../components/PostForm/PostForm';
 
 export const NewPost = () => {
-  return <Text>New Post page</Text>;
+  return <PostForm />;
 };
