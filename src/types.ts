@@ -1,8 +1,15 @@
-export interface Post {
-  id: string;
+export interface ApiPost {
   name: string;
   description: string;
   date: string;
+}
+
+export interface Post extends ApiPost {
+  id: string;
+}
+
+export interface ApiPosts {
+  [id: string]: ApiPost;
 }
 
 export interface PostMutation {

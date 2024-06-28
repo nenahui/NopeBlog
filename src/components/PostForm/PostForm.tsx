@@ -1,10 +1,5 @@
 import React, { useState } from 'react';
-import {
-  BookmarkIcon,
-  Cross2Icon,
-  MagicWandIcon,
-  PersonIcon,
-} from '@radix-ui/react-icons';
+import { Cross2Icon, MagicWandIcon, PersonIcon } from '@radix-ui/react-icons';
 import { PostMutation } from '../../types';
 import {
   Box,
@@ -20,8 +15,6 @@ import { axiosApi } from '../../axiosApi';
 import { useNavigate } from 'react-router-dom';
 import { faker } from '@faker-js/faker';
 import { Notification } from '../Notification/Notification';
-import { Simulate } from 'react-dom/test-utils';
-import error = Simulate.error;
 
 export const PostForm = () => {
   const navigate = useNavigate();
