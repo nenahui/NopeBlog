@@ -4,6 +4,7 @@ import { format } from 'date-fns';
 import { Link } from 'react-router-dom';
 import { Avatar, Button, Card, Flex, Text } from '@radix-ui/themes';
 import { DoubleArrowRightIcon } from '@radix-ui/react-icons';
+import { MoreModal } from '../MoreModal/MoreModal';
 
 interface Props {
   post: Post;
@@ -31,11 +32,21 @@ export const PostCard: React.FC<Props> = ({ post }) => {
             Created on {format(post.date, 'dd.MM.yy hh:mm aa')}
           </Text>
         </Flex>
-        <Flex align={'center'} justify={'between'} gap={'3'}>
+        <Flex align={'end'} justify={'between'} gap={'2'}>
           <Text className={'text-overflow'}>{post.description}</Text>
+          <MoreModal post={post}>
+            <Button
+              variant={'surface'}
+              style={{ width: '130px' }}
+              className={'pointer'}
+            >
+              Learn More
+              <DoubleArrowRightIcon width={'16px'} height={'16px'} />
+            </Button>
+          </MoreModal>
           <Link to={`/post/${post.id}/edit`}>
             <Button variant={'surface'} className={'pointer'}>
-              Read more
+              Edit
               <DoubleArrowRightIcon width={'16px'} height={'16px'} />
             </Button>
           </Link>

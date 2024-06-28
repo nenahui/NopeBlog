@@ -1,6 +1,11 @@
-import React, { useState } from 'react';
-import { Cross2Icon, MagicWandIcon, PersonIcon } from '@radix-ui/react-icons';
-import { PostMutation } from '../../types';
+import React, { useEffect, useState } from 'react';
+import {
+  Cross2Icon,
+  MagicWandIcon,
+  PersonIcon,
+  TrashIcon,
+} from '@radix-ui/react-icons';
+import { ApiPost, PostMutation } from '../../types';
 import {
   Box,
   Button,
@@ -12,18 +17,58 @@ import {
   TextField,
 } from '@radix-ui/themes';
 import { axiosApi } from '../../axiosApi';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { faker } from '@faker-js/faker';
 import { Notification } from '../Notification/Notification';
 
-export const PostForm = () => {
+interface Props {
+  type: 'create' | 'edit';
+}
+
+export const PostForm: React.FC<Props> = ({ type }) => {
+  const params = useParams();
   const navigate = useNavigate();
   const [postMutation, setPostMutation] = useState<PostMutation>({
     description: '',
     name: '',
   });
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isDataLoading, setIsDataLoading] = useState<boolean>(false);
   const [isNotificationShow, setIsNotificationShow] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (type === 'edit') {
+      const fetchData = async () => {
+        setIsDataLoading(true);
+
+        const response = await axiosApi.get<ApiPost | null>(
+          `/posts/${params.postId}.json`
+        );
+        if (response.data) {
+          setPostMutation(response.data);
+          setIsDataLoading(false);
+        }
+      };
+
+      void fetchData();
+    }
+  }, [params.postId, type]);
+
+  const deletePost = async () => {
+    let isError = false;
+    try {
+      setIsLoading(true);
+      await axiosApi.delete(`/posts/${params.postId}.json`);
+    } catch (error) {
+      setIsNotificationShow(true);
+      isError = true;
+    } finally {
+      setIsLoading(false);
+      if (!isError) {
+        navigate('/');
+      }
+    }
+  };
 
   const onFieldChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -47,7 +92,11 @@ export const PostForm = () => {
         date: new Date().toISOString(),
       };
 
-      await axiosApi.post('posts.json', postData);
+      if (type === 'create') {
+        await axiosApi.post('posts.json', postData);
+      } else {
+        await axiosApi.put(`posts/${params.postId}.json`, postData);
+      }
     } catch (error) {
       setIsNotificationShow(true);
       isError = true;
@@ -66,6 +115,10 @@ export const PostForm = () => {
     });
   };
 
+  if (isDataLoading) {
+    return <Spinner className={'spinner'} loading={isDataLoading} />;
+  }
+
   return (
     <form onSubmit={onFormSubmit}>
       <Notification show={isNotificationShow} color={'red'}>
@@ -74,7 +127,9 @@ export const PostForm = () => {
       <Card size={'2'} my={'3'}>
         <Flex direction={'column'}>
           <Flex justify={'between'} align={'center'}>
-            <Text size={'4'}>Create new post</Text>
+            <Text size={'4'}>
+              {type === 'create' ? 'Create a new' : 'Edit'} post
+            </Text>
             <Flex justify={'between'} gap={'5'}>
               <Button
                 type={'button'}
@@ -85,11 +140,24 @@ export const PostForm = () => {
                 Random values
                 <MagicWandIcon />
               </Button>
+              {type === 'edit' && (
+                <Button
+                  variant={'ghost'}
+                  color={'red'}
+                  type={'button'}
+                  className={'pointer'}
+                  onClick={() => deletePost()}
+                >
+                  Delete post
+                  <TrashIcon />
+                </Button>
+              )}
               <Button
                 variant={'ghost'}
                 color={'red'}
                 type={'button'}
                 className={'pointer'}
+                onClick={() => navigate('/')}
               >
                 Cancel
                 <Cross2Icon />
@@ -130,9 +198,10 @@ export const PostForm = () => {
             variant={'surface'}
             type={'submit'}
             disabled={isLoading}
+            className={'pointer'}
           >
             <Spinner loading={isLoading} />
-            Create a new post
+            {type === 'create' ? 'Create a new post' : 'Edit post'}
           </Button>
         </Flex>
       </Card>

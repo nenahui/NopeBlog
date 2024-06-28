@@ -4,7 +4,7 @@ import { Link, NavLink } from 'react-router-dom';
 export const Header = () => {
   return (
     <header>
-      <Flex justify={'between'}>
+      <Flex justify={'between'} align={'end'}>
         <Heading className={'logo'}>
           <Link to={'/'}>NopeBlog</Link>
         </Heading>

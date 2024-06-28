@@ -22,11 +22,10 @@ export const Home = () => {
       });
 
       setPostsList(posts);
-      setIsLoading(false);
     } else {
       setPostsList([]);
-      setIsLoading(false);
     }
+    setIsLoading(false);
   }, []);
 
   useEffect(() => {
