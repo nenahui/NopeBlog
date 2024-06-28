@@ -17,6 +17,19 @@ export interface PostMutation {
   description: string;
 }
 
+export interface ApiAbout {
+  title: string;
+  subtitle: string;
+  description: string;
+  image: string;
+}
+
+export interface ApiContacts {
+  address: string;
+  phone: string;
+  email: string;
+}
+
 export type NotificationColorTypes =
   | 'gray'
   | 'gold'

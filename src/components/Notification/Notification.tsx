@@ -11,7 +11,7 @@ interface Props extends PropsWithChildren {
 export const Notification: React.FC<Props> = ({ color, show, children }) => {
   return (
     show && (
-      <Callout.Root color={color} my={'3'}>
+      <Callout.Root color={color} my={'3'} role={'alert'}>
         <Callout.Icon>
           <InfoCircledIcon />
         </Callout.Icon>
