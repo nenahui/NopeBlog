@@ -3,7 +3,7 @@ import { Post } from '../../types';
 import { format } from 'date-fns';
 import { Link } from 'react-router-dom';
 import { Avatar, Button, Card, Flex, Text } from '@radix-ui/themes';
-import { DoubleArrowRightIcon } from '@radix-ui/react-icons';
+import { DoubleArrowRightIcon, Pencil2Icon } from '@radix-ui/react-icons';
 import { MoreModal } from '../MoreModal/MoreModal';
 
 interface Props {
@@ -47,7 +47,7 @@ export const PostCard: React.FC<Props> = ({ post }) => {
           <Link to={`/post/${post.id}/edit`}>
             <Button variant={'surface'} className={'pointer'}>
               Edit
-              <DoubleArrowRightIcon width={'16px'} height={'16px'} />
+              <Pencil2Icon width={'16px'} height={'16px'} />
             </Button>
           </Link>
         </Flex>

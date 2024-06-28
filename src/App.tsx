@@ -6,7 +6,6 @@ import { Contacts } from './pages/Contacts/Contacts';
 import { About } from './pages/About/About';
 import { Header } from './components/Header/Header';
 import { PostForm } from './components/PostForm/PostForm';
-import { MoreModal } from './components/MoreModal/MoreModal';
 
 export const App = () => {
   return (
@@ -17,9 +16,7 @@ export const App = () => {
 
       <Routes>
         <Route path={'/'} element={<Home />} />
-        <Route path={'/posts'} element={<Home />}>
-          <Route path={'post/:postId'} element={<MoreModal />} />
-        </Route>
+        <Route path={'/posts'} element={<Home />} />
         <Route path={'/new-post'} element={<NewPost />} />
         <Route path={'/contacts'} element={<Contacts />} />
         <Route path={'/about'} element={<About />} />

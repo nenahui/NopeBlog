@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import {
   Cross2Icon,
   MagicWandIcon,
@@ -36,23 +36,23 @@ export const PostForm: React.FC<Props> = ({ type }) => {
   const [isDataLoading, setIsDataLoading] = useState<boolean>(false);
   const [isNotificationShow, setIsNotificationShow] = useState<boolean>(false);
 
+  const fetchData = useCallback(async () => {
+    setIsDataLoading(true);
+
+    const response = await axiosApi.get<ApiPost | null>(
+      `/posts/${params.postId}.json`
+    );
+    if (response.data) {
+      setPostMutation(response.data);
+      setIsDataLoading(false);
+    }
+  }, [params.postId]);
+
   useEffect(() => {
     if (type === 'edit') {
-      const fetchData = async () => {
-        setIsDataLoading(true);
-
-        const response = await axiosApi.get<ApiPost | null>(
-          `/posts/${params.postId}.json`
-        );
-        if (response.data) {
-          setPostMutation(response.data);
-          setIsDataLoading(false);
-        }
-      };
-
       void fetchData();
     }
-  }, [params.postId, type]);
+  }, [fetchData, type]);
 
   const deletePost = async () => {
     let isError = false;
