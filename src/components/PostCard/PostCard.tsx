@@ -34,22 +34,24 @@ export const PostCard: React.FC<Props> = ({ post }) => {
         </Flex>
         <Flex align={'end'} justify={'between'} gap={'2'}>
           <Text className={'text-overflow'}>{post.description}</Text>
-          <MoreModal post={post}>
-            <Button
-              variant={'surface'}
-              style={{ width: '130px' }}
-              className={'pointer'}
-            >
-              Learn More
-              <DoubleArrowRightIcon width={'16px'} height={'16px'} />
-            </Button>
-          </MoreModal>
-          <Link to={`/post/${post.id}/edit`}>
-            <Button variant={'surface'} className={'pointer'}>
-              Edit
-              <Pencil2Icon width={'16px'} height={'16px'} />
-            </Button>
-          </Link>
+          <Flex gap={'3'} align={'center'}>
+            <MoreModal post={post}>
+              <Button
+                variant={'surface'}
+                style={{ width: '130px' }}
+                className={'pointer'}
+              >
+                Learn More
+                <DoubleArrowRightIcon width={'16px'} height={'16px'} />
+              </Button>
+            </MoreModal>
+            <Link to={`/post/${post.id}/edit`}>
+              <Button variant={'surface'} className={'pointer'}>
+                Edit
+                <Pencil2Icon width={'16px'} height={'16px'} />
+              </Button>
+            </Link>
+          </Flex>
         </Flex>
       </Flex>
     </Card>

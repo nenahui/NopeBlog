@@ -12,6 +12,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { ApiAbout } from '../../types';
 import { axiosApi } from '../../axiosApi';
 import { Notification } from '../../components/Notification/Notification';
+import { Link, Outlet } from 'react-router-dom';
 
 export const About = () => {
   const [data, setData] = useState<ApiAbout | null>();
@@ -40,32 +41,37 @@ export const About = () => {
       <Notification show={isNotificationShow} color={'red'}>
         There was an error loading data, please try again later
       </Notification>
-      <Card my={'3'}>
-        <Flex gap={'5'} align={'center'} justify={'center'}>
-          <Avatar
-            size={'8'}
-            src={data?.image}
-            radius={'small'}
-            fallback={'T'}
-          />
-          <Box>
-            <Flex justify={'between'} align={'center'}>
-              <Heading weight={'bold'} size={'6'}>
-                {data?.title}
+      {data && (
+        <Card my={'3'}>
+          <Flex gap={'5'} justify={'start'} align={'center'}>
+            <Avatar
+              size={'8'}
+              src={data?.image}
+              radius={'small'}
+              fallback={'T'}
+            />
+            <Box width={'100%'} height={'100%'}>
+              <Link to={'edit'}>
+                <Button variant={'ghost'} className={'pointer'}>
+                  Edit
+                </Button>
+              </Link>
+              <Flex justify={'between'} direction={'column'}>
+                <Heading weight={'bold'} size={'6'}>
+                  {data?.title}
+                </Heading>
+              </Flex>
+              <Heading weight={'bold'} size={'4'}>
+                {data?.subtitle}
               </Heading>
-              <Button variant={'ghost'} mr={'2'}>
-                Edit
-              </Button>
-            </Flex>
-            <Heading weight={'bold'} size={'4'}>
-              {data?.subtitle}
-            </Heading>
-            <Text as={'p'} size={'2'} color={'gray'}>
-              {data?.description}
-            </Text>
-          </Box>
-        </Flex>
-      </Card>
+              <Text as={'p'} size={'2'} color={'gray'}>
+                {data?.description}
+              </Text>
+            </Box>
+          </Flex>
+        </Card>
+      )}
+      <Outlet />
     </>
   );
 };

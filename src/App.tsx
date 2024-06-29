@@ -6,6 +6,7 @@ import { Contacts } from './pages/Contacts/Contacts';
 import { About } from './pages/About/About';
 import { Header } from './components/Header/Header';
 import { PostForm } from './components/PostForm/PostForm';
+import { PagesForm } from './components/PagesForm/PagesForm';
 
 export const App = () => {
   return (
@@ -18,8 +19,12 @@ export const App = () => {
         <Route path={'/'} element={<Home />} />
         <Route path={'/posts'} element={<Home />} />
         <Route path={'/new-post'} element={<NewPost />} />
-        <Route path={'/contacts'} element={<Contacts />} />
-        <Route path={'/about'} element={<About />} />
+        <Route path={'/contacts'} element={<Contacts />}>
+          <Route path={'edit'} element={<PagesForm type={'contacts'} />} />
+        </Route>
+        <Route path={'/about'} element={<About />}>
+          <Route path={'edit'} element={<PagesForm type={'about'} />} />
+        </Route>
         <Route
           path={'/post/:postId/edit'}
           element={<PostForm type={'edit'} />}
